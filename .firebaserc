@@ -1,5 +1,8 @@
 {
   "projects": {
-    "default": "edsquid-portfolio"
-  }
+    "default": "edsquidportfolio",
+    "portfolio": "edsquidportfolio"
+  },
+  "targets": {},
+  "etags": {}
 }

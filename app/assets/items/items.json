@@ -1,5 +1,27 @@
 {
-    "nzane":{},
-    "whispers":{},
-    "runefire":{}
-}
+    "nzane":{
+        "title":"NZ Alerts & Events",
+        "iconPath":"assets/icons/nzane.png",
+        "scope":"personal",
+        "success":"moderateSuccess",
+        "status":"completed",
+        "subtitle":"A mobile app that consolidates New Zealand's alerts and social events into a single platform, providing real-time updates and notifications."
+   
+    },
+    "whispers":{
+        "title":"Whispers",
+        "iconPath":"assets/icons/whispers.png",
+        "scope":"personal",
+        "success":"unsuccessful",
+        "status":"completed",
+        "subtitle":"A mobile app for location-based messages, allowing for community voting. Based on the the Dark Souls game series message system."
+    },
+    "runefire":{
+        "title":"Runefire",
+        "iconPath":"assets/icons/runefire.png",
+        "success":"unsuccessful",
+        "scope":"personal",
+        "status":"cancelled",
+        "subtitle":"A computer and mobile roguelike-game, inspired by games like Hades and Vampire Survivors."
+    }
+    }
