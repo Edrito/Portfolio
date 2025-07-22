@@ -156,78 +156,83 @@ class Home extends ConsumerWidget {
                     ],
                   ),
                 ),
-                FutureBuilder(
-                    //Load  assets/items/items.json
-                    future: DefaultAssetBundle.of(context)
-                        .loadString('assets/items/items.json'),
-                    builder:
-                        (BuildContext context, AsyncSnapshot<String> snapshot) {
-                      final itemList = snapshot.data != null
-                          ? (jsonDecode(snapshot.data ?? "")
-                                  as Map<String, dynamic>)
-                              .map(
-                                (key, value) => MapEntry(
-                                  key,
-                                  Item.fromJson(value as Map<String, dynamic>),
-                                ),
-                              )
-                              .values
-                              .toList()
-                          : <Item>[];
+                Expanded(
+                  child: FutureBuilder(
+                      //Load  assets/items/items.json
+                      future: DefaultAssetBundle.of(context)
+                          .loadString('assets/items/items.json'),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<String> snapshot) {
+                        final itemList = snapshot.data != null
+                            ? (jsonDecode(snapshot.data ?? "")
+                                    as Map<String, dynamic>)
+                                .map(
+                                  (key, value) => MapEntry(
+                                    key,
+                                    Item.fromJson(
+                                        value as Map<String, dynamic>),
+                                  ),
+                                )
+                                .values
+                                .toList()
+                            : <Item>[];
 
-                      return SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            for (ItemScope scope in ItemScope.values)
-                              Builder(builder: (context) {
-                                final itemWidgets = itemList
-                                    .where((item) => item.scope == scope)
-                                    .toList();
+                        return SingleChildScrollView(
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              for (ItemScope scope in ItemScope.values)
+                                Builder(builder: (context) {
+                                  final itemWidgets = itemList
+                                      .where((item) => item.scope == scope)
+                                      .toList();
 
-                                //Sort items based on HomeState
-                                itemWidgets.sort((a, b) {
-                                  final homeStateClass = ref.watch(homeState);
-                                  if (homeStateClass.sortBy == "successState") {
-                                    return homeStateClass.isDescending
-                                        ? a.status.index
-                                            .compareTo(b.status.index)
-                                        : b.status.index
-                                            .compareTo(a.status.index);
-                                  } else if (homeStateClass.sortBy ==
-                                      "statusState") {
-                                    return homeStateClass.isDescending
-                                        ? a.success.index
-                                            .compareTo(b.success.index)
-                                        : b.success.index
-                                            .compareTo(a.success.index);
-                                  }
-                                  return 0;
-                                });
-                                return ExpansionTile(
-                                  title: Text(scope.name.toUpperCase()),
-                                  initiallyExpanded: true,
-                                  children: [
-                                    VisibilityDetector(
-                                        key: Key(scope.name),
-                                        onVisibilityChanged: (visibilityInfo) {
-                                          if (visibilityInfo.visibleFraction >
-                                              0.1) {
-                                            print('${scope.name} is visible');
-                                          }
-                                        },
-                                        child: ListView(
-                                          shrinkWrap: true,
-                                          children:
-                                              itemWidgets.animate().fadeIn(),
-                                        )),
-                                  ],
-                                );
-                              }),
-                          ],
-                        ),
-                      );
-                    }),
+                                  //Sort items based on HomeState
+                                  itemWidgets.sort((a, b) {
+                                    final homeStateClass = ref.watch(homeState);
+                                    if (homeStateClass.sortBy ==
+                                        "successState") {
+                                      return homeStateClass.isDescending
+                                          ? a.status.index
+                                              .compareTo(b.status.index)
+                                          : b.status.index
+                                              .compareTo(a.status.index);
+                                    } else if (homeStateClass.sortBy ==
+                                        "statusState") {
+                                      return homeStateClass.isDescending
+                                          ? a.success.index
+                                              .compareTo(b.success.index)
+                                          : b.success.index
+                                              .compareTo(a.success.index);
+                                    }
+                                    return 0;
+                                  });
+                                  return ExpansionTile(
+                                    title: Text(scope.name.toUpperCase()),
+                                    initiallyExpanded: true,
+                                    children: [
+                                      VisibilityDetector(
+                                          key: Key(scope.name),
+                                          onVisibilityChanged:
+                                              (visibilityInfo) {
+                                            if (visibilityInfo.visibleFraction >
+                                                0.1) {
+                                              print('${scope.name} is visible');
+                                            }
+                                          },
+                                          child: ListView(
+                                            shrinkWrap: true,
+                                            children:
+                                                itemWidgets.animate().fadeIn(),
+                                          )),
+                                    ],
+                                  );
+                                }),
+                            ],
+                          ),
+                        );
+                      }),
+                ),
               ],
             ),
           ),

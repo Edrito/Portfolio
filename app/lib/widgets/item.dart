@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:recase/recase.dart';
 
@@ -127,111 +128,117 @@ class Item extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeData = Theme.of(context);
-    return ExpansionTile(
-      leading: iconPath != null
-          ? Image.asset(
-              iconPath!,
-              width: 64,
-              height: 64,
-            )
-          : null,
-      subtitle: Text(
-        subtitle,
-        style: themeData.textTheme.titleSmall,
-        maxLines: 3,
-      ),
-      title: Row(
-        children: [
-          Expanded(
-              child: Text(
-            title,
-            style: themeData.textTheme.titleMedium,
-          )),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                width: 150,
-                color: status.color,
-                child: Center(
-                  child: Text(
-                    status.name.titleCase,
-                    style: themeData.textTheme.titleMedium
-                        ?.copyWith(color: Colors.black87),
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                width: 150,
-                color: success.color,
-                child: Center(
-                  child: Text(
-                    success.name.titleCase,
-                    style: themeData.textTheme.titleMedium
-                        ?.copyWith(color: Colors.black87),
-                  ),
-                )),
-          ),
-        ],
-      ),
-      children: [
-        if (description != null)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              description!,
-              style: themeData.textTheme.bodyMedium,
+    return Builder(builder: (context) {
+      return ExpansionTile(
+        leading: iconPath != null
+            ? Image.asset(
+                iconPath!,
+                width: 64,
+                height: 64,
+              )
+            : null,
+        subtitle: Text(
+          subtitle,
+          style: themeData.textTheme.titleSmall,
+          maxLines: 3,
+        ),
+        title: Row(
+          children: [
+            Expanded(
+                child: Text(
+              title,
+              style: themeData.textTheme.titleMedium,
+            )),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  width: 150,
+                  color: status.color,
+                  child: Center(
+                    child: Text(
+                      status.name.titleCase,
+                      style: themeData.textTheme.titleMedium
+                          ?.copyWith(color: Colors.black87),
+                    ),
+                  )),
             ),
-          ),
-        if (images != null && images!.isNotEmpty)
-          SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: SizedBox(
-              height: 250,
-              child: Row(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                  width: 150,
+                  color: success.color,
+                  child: Center(
+                    child: Text(
+                      success.name.titleCase,
+                      style: themeData.textTheme.titleMedium
+                          ?.copyWith(color: Colors.black87),
+                    ),
+                  )),
+            ),
+          ],
+        ),
+        children: [
+          if (description != null)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                description!,
+                style: themeData.textTheme.bodyMedium,
+              ),
+            ),
+          if (images != null && images!.isNotEmpty)
+            SizedBox(
+              height: 500,
+              child: CupertinoScrollbar(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    shrinkWrap: true,
+                    children: [
+                      for (final image in images ?? [])
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Image.network(
+                            image,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          if (positives.isNotEmpty && negatives.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  for (final image in images ?? [])
+                  Text(
+                    "Positives",
+                    style: themeData.textTheme.titleMedium,
+                  ),
+                  for (final positive in positives)
                     Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.network(
-                        image,
-                        fit: BoxFit.cover,
-                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(positive),
+                    ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Challenges",
+                    style: themeData.textTheme.titleMedium,
+                  ),
+                  for (final negative in negatives)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 4.0),
+                      child: Text(negative),
                     ),
                 ],
               ),
             ),
-          ),
-        if (positives.isNotEmpty && negatives.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "Positives",
-                  style: themeData.textTheme.titleMedium,
-                ),
-                for (final positive in positives)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Text(positive),
-                  ),
-                const SizedBox(height: 16),
-                Text(
-                  "Challenges",
-                  style: themeData.textTheme.titleMedium,
-                ),
-                for (final negative in negatives)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: Text(negative),
-                  ),
-              ],
-            ),
-          ),
-      ],
-    );
+        ],
+      );
+    });
   }
 }

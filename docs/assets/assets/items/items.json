@@ -15,6 +15,16 @@
         "success":"unsuccessful",
         "status":"completed",
         "subtitle":"A mobile app for location-based messages, allowing for community voting. Based on the the Dark Souls game series message system."
+        ,
+        "images":[
+            "https://edrito.github.io/Portfolio/assets/images/whispers/1.JPEG",
+
+            "https://edrito.github.io/Portfolio/assets/images/whispers/2.JPEG",
+            "https://edrito.github.io/Portfolio/assets/images/whispers/3.JPEG",
+            "https://edrito.github.io/Portfolio/assets/images/whispers/4.JPEG",
+            "https://edrito.github.io/Portfolio/assets/images/whispers/5.JPEG",
+            "https://edrito.github.io/Portfolio/assets/images/whispers/6.JPEG"
+        ]
     },
     "runefire":{
         "title":"Runefire",
