@@ -1,6 +1,10 @@
-import 'package:flutter/cupertino.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:recase/recase.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum ItemScope {
   personal,
@@ -30,9 +34,9 @@ enum ItemStatus {
 
 enum ItemSuccess {
   successful,
-  unsuccessful,
+  moderateSuccess,
   minorSuccess,
-  moderateSuccess;
+  unsuccessful;
 
   Color get color {
     switch (this) {
@@ -48,7 +52,12 @@ enum ItemSuccess {
   }
 }
 
-class Item extends StatelessWidget {
+final itemScrollProvider =
+    Provider.family<CarouselSliderController, String>((ref, title) {
+  return CarouselSliderController();
+});
+
+class Item extends ConsumerWidget {
   const Item({
     super.key,
     this.subtitle = "",
@@ -65,6 +74,7 @@ class Item extends StatelessWidget {
     this.title = "",
     this.images = const [],
     this.links = const [],
+    this.imagesAreScreenshots = false,
     this.iconPath,
     this.techStack = "",
   });
@@ -77,6 +87,7 @@ class Item extends StatelessWidget {
       tags: (json['tags'] as List<dynamic>?)?.cast<String>(),
       images: (json['images'] as List<dynamic>?)?.cast<String>(),
       links: (json['links'] as List<dynamic>?)?.cast<String>() ?? [],
+      imagesAreScreenshots: json['imagesAreScreenshots'] as bool? ?? false,
       year: (json['year'] as List<dynamic>?) != null
           ? (json['year'][0] as int, json['year'][1] as int?)
           : const (0, null),
@@ -116,6 +127,7 @@ class Item extends StatelessWidget {
   final ItemSuccess success;
   final List<String>? tags;
   final String title;
+  final bool imagesAreScreenshots;
 
   final String techStack;
 
@@ -126,119 +138,251 @@ class Item extends StatelessWidget {
   final (int, int?)? month;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeData = Theme.of(context);
-    return Builder(builder: (context) {
-      return ExpansionTile(
-        leading: iconPath != null
-            ? Image.asset(
-                iconPath!,
-                width: 64,
-                height: 64,
-              )
-            : null,
-        subtitle: Text(
-          subtitle,
-          style: themeData.textTheme.titleSmall,
-          maxLines: 3,
-        ),
-        title: Row(
-          children: [
-            Expanded(
-                child: Text(
-              title,
-              style: themeData.textTheme.titleMedium,
-            )),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  width: 150,
-                  color: status.color,
-                  child: Center(
-                    child: Text(
-                      status.name.titleCase,
-                      style: themeData.textTheme.titleMedium
-                          ?.copyWith(color: Colors.black87),
-                    ),
-                  )),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Container(
-                  width: 150,
-                  color: success.color,
-                  child: Center(
-                    child: Text(
-                      success.name.titleCase,
-                      style: themeData.textTheme.titleMedium
-                          ?.copyWith(color: Colors.black87),
-                    ),
-                  )),
-            ),
-          ],
-        ),
+    return ExpansionTile(
+      key: ValueKey(title),
+      leading: iconPath != null
+          ? Image.asset(
+              iconPath!,
+              width: 64,
+              height: 64,
+            )
+          : null,
+      subtitle: Text(
+        subtitle,
+        style: themeData.textTheme.titleSmall,
+        maxLines: 3,
+      ),
+      title: Row(
         children: [
-          if (description != null)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+          Expanded(
               child: Text(
-                description!,
-                style: themeData.textTheme.bodyMedium,
-              ),
+            title,
+            style: themeData.textTheme.titleMedium,
+          )),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                width: 150,
+                color: status.color,
+                child: Center(
+                  child: Text(
+                    status.name.titleCase,
+                    style: themeData.textTheme.titleMedium
+                        ?.copyWith(color: Colors.black87),
+                  ),
+                )),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Container(
+                width: 150,
+                color: success.color,
+                child: Center(
+                  child: Text(
+                    success.name.titleCase,
+                    style: themeData.textTheme.titleMedium
+                        ?.copyWith(color: Colors.black87),
+                  ),
+                )),
+          ),
+        ],
+      ),
+      children: [
+        if (techStack.isNotEmpty)
+          Container(
+            color: themeData.colorScheme.secondary,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SelectableText(
+                    "Tech Stack",
+                    style: themeData.textTheme.titleMedium
+                        ?.copyWith(color: themeData.colorScheme.onPrimary),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SelectableText(
+                    techStack,
+                    style: themeData.textTheme.bodyMedium
+                        ?.copyWith(color: themeData.colorScheme.onPrimary),
+                    textAlign: TextAlign.start,
+                  ),
+                ),
+              ],
             ),
-          if (images != null && images!.isNotEmpty)
-            SizedBox(
-              height: 500,
-              child: CupertinoScrollbar(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    shrinkWrap: true,
+          ),
+        if (links.isNotEmpty)
+          Container(
+            color: themeData.colorScheme.surfaceContainerHighest,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SelectableText(
+                    "Links",
+                    style: themeData.textTheme.titleMedium
+                        ?.copyWith(color: themeData.colorScheme.onSurface),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      for (final image in images ?? [])
+                      for (final link in links)
                         Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.network(
-                            image,
-                            fit: BoxFit.cover,
+                          padding: const EdgeInsets.symmetric(vertical: 4.0),
+                          child: InkWell(
+                            onTap: () async {
+                              if (await canLaunchUrl(Uri.parse(link))) {
+                                await launchUrl(Uri.parse(link));
+                              }
+                            },
+                            child: Text(
+                              link,
+                              style: themeData.textTheme.bodyMedium?.copyWith(
+                                color: themeData.colorScheme.primary,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
                           ),
                         ),
                     ],
                   ),
                 ),
-              ),
+              ],
             ),
-          if (positives.isNotEmpty && negatives.isNotEmpty)
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Positives",
-                    style: themeData.textTheme.titleMedium,
-                  ),
-                  for (final positive in positives)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(positive),
-                    ),
-                  const SizedBox(height: 16),
-                  Text(
-                    "Challenges",
-                    style: themeData.textTheme.titleMedium,
-                  ),
-                  for (final negative in negatives)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 4.0),
-                      child: Text(negative),
-                    ),
-                ],
-              ),
+          ),
+        if (description != null)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SelectableText(
+              description!,
+              style: themeData.textTheme.bodyMedium,
             ),
-        ],
-      );
-    });
+          ),
+        if (images != null && images!.isNotEmpty)
+          SizedBox(
+            height: 500,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: CarouselSlider(
+                    options: CarouselOptions(
+                      scrollDirection: Axis.horizontal,
+                      enableInfiniteScroll: false,
+                      height: 500,
+                      viewportFraction: imagesAreScreenshots
+                          ? 0.3
+                          : 1, // Adjust viewport fraction based on screenshots
+                    ),
+                    carouselController: ref.watch(itemScrollProvider(title)),
+                    items: [
+                      for (final image in images ?? [])
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => Dialog(
+                                  backgroundColor: Colors.transparent,
+                                  child: InteractiveViewer(
+                                    child: CachedNetworkImage(
+                                      imageUrl: image,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            child: CachedNetworkImage(
+                              imageUrl: image,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                    ].animate().fadeIn(),
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                          onPressed: () {
+                            final controller =
+                                ref.read(itemScrollProvider(title));
+                            controller.previousPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut);
+                          },
+                          icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  bottom: 0,
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: IconButton(
+                          onPressed: () {
+                            final controller =
+                                ref.read(itemScrollProvider(title));
+                            controller.nextPage(
+                                duration: const Duration(milliseconds: 300),
+                                curve: Curves.easeInOut);
+                          },
+                          icon: const Icon(Icons.arrow_forward_ios_rounded)),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        if (positives.isNotEmpty && negatives.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Positives",
+                  style: themeData.textTheme.titleMedium,
+                ),
+                for (final positive in positives)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text(positive),
+                  ),
+                const SizedBox(height: 16),
+                Text(
+                  "Challenges",
+                  style: themeData.textTheme.titleMedium,
+                ),
+                for (final negative in negatives)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 4.0),
+                    child: Text(negative),
+                  ),
+              ],
+            ),
+          ),
+      ],
+    );
   }
 }

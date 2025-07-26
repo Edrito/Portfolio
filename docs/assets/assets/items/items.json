@@ -5,6 +5,7 @@
         "scope": "personal",
         "success": "moderateSuccess",
         "status": "completed",
+        "imagesAreScreenshots": true,
         "subtitle": "A mobile app that consolidates New Zealand's alerts and social events into a single platform, providing a real-time map and notification service.",
         "images": [
             "https://edrito.github.io/Portfolio/images/nzane/1.png",
@@ -14,8 +15,18 @@
             "https://edrito.github.io/Portfolio/images/nzane/5.png",
             "https://edrito.github.io/Portfolio/images/nzane/6.png",
             "https://edrito.github.io/Portfolio/images/nzane/7.png",
-            "https://edrito.github.io/Portfolio/images/nzane/8.png",
-            "https://edrito.github.io/Portfolio/images/nzane/9.jpg"
+            "https://edrito.github.io/Portfolio/images/nzane/8.png"
+        ],
+"description": "NZ Alerts & Events was a cross-platform mobile and web application that consolidated publicly available alert information from many of the country's relevant organizations, such as MetService (provided weather alerts), the Department of Conservation (provided track closures and poison drop alerts), and others. Additionally, included social events from EventFinda, mitigating an issue with their main website in that events are not viewable on a map, rather only a simple region/town level filter.\n\nOther features of NZ Alerts & Events included, \n\t- Regional/District/Custom area notification customization\n\t- Posting custom alerts\n\t- Messaging alert posters\n\t- Reporting poor alerts\n\t- A map-based interface for viewing alerts and events\n\nAlthough the application was moderately successful, it was my first large released project and thus suffered from many common pitfalls, such as scope creep which made maintaining, fixing, and overhauling features a nightmare, overspending (a lot of money was spent on advertising), and a lack of focus on the core features. The application was released in 2022, reaching a peak userbase of just over 1000 members, and as of now is no longer available on app stores. However, it is still operating with around 1–3 daily active users.",
+        "techStack": "Front-end: Flutter (Web, Apple and Android)\nBack-end: Google Cloud Functions (Python), Firebase Firestore and Supabase",
+        "lessons": [
+          
+        ],
+        "positives": [
+       
+        ],
+        "negatives": [
+         
         ]
     },
     "whispers": {
@@ -24,8 +35,13 @@
         "scope": "personal",
         "success": "unsuccessful",
         "status": "completed",
+        "imagesAreScreenshots": true,
         "subtitle": "A mobile app for location-based messages that allowed for community voting. Based on the Dark Souls game series message system.",
-        "images": [
+        "techStack": "Front-end: Flutter (Android)\nBack-end: Google Cloud Functions (Python) and Firebase Firestore",
+        
+"description":
+"Inspired by a tweet from a stranger indicating their desire to have the Dark Souls messaging system in real life, I was motivated to create a simple replication of that community-based messaging system. This Android application allows users to post custom messages with a 3D action to a location near their position. The messages are limited by predefined categories, such as 'action', 'location', or 'animal', in an attempt to inspire creativity and 'weirdness'. I would say the construction and operation of the application were very successful. I did not succumb to scope creep as I usually do (this was an intentional effort), and the application ran and operated smoothly. Features of this application included: \n\t - Posting custom anonymous messages \n\t - Rating anonymous messages\n\nThe application is not currently on an app store, as a new requirement was enacted by the Google Play Store that required developers to display their address publicly. I was not interested in paying a small fee to establish an office or another location that was not my personal address."    
+,    "images": [
             "https://edrito.github.io/Portfolio/images/whispers/1.JPEG",
             "https://edrito.github.io/Portfolio/images/whispers/2.JPEG",
             "https://edrito.github.io/Portfolio/images/whispers/3.JPEG",
@@ -40,6 +56,7 @@
         "success": "unsuccessful",
         "scope": "personal",
         "status": "cancelled",
+        "links":["https://edsquid.itch.io/runfire"],
         "subtitle": "A computer and mobile roguelike-game, inspired by games like Hades and Vampire Survivors.",
         "images": [
             "https://edrito.github.io/Portfolio/images/runefire/1.png",

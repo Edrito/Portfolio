@@ -22,6 +22,10 @@ dependencies:
   url_launcher: ^6.1.10
   flutter_riverpod: ^2.6.1
   recase: ^4.1.0
+  carousel_slider: ^5.1.1
+  cached_network_image: ^3.2.3
+  image_size_getter: ^2.4.0
+  
 
 dev_dependencies:
   flutter_test:
