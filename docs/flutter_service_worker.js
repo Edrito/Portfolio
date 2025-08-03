@@ -3,13 +3,14 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"assets/AssetManifest.bin": "2f79272a590dd4c503a1a0cab2b8e231",
-"assets/AssetManifest.bin.json": "9388b2a6a70d45278f59e6f180d28a25",
-"assets/AssetManifest.json": "95c55d1f736e7f8460e490772a664f0b",
+const RESOURCES = {"assets/AssetManifest.bin": "911c9fb5f41ca6199bff3ea5734da704",
+"assets/AssetManifest.bin.json": "2ce90c1afb029819e7ca72b53b3cd764",
+"assets/AssetManifest.json": "cbd3d06b5b480d32b5509d5b017ad23a",
 "assets/assets/icons/nzane.png": "60baff5c45eedd07efc9ea37b71ebead",
 "assets/assets/icons/runefire.png": "cd386868cb2083e72c1b3f3c9ae87b84",
+"assets/assets/icons/tearawhakaora.png": "7f9aed38ed4446198ec136f08986a986",
 "assets/assets/icons/whispers.png": "8ea91f3d15b822e5d7eaf0bcf94d181f",
-"assets/assets/items/items.json": "1b14464622313b3edaad2d3787948ceb",
+"assets/assets/items/items.json": "3b20156b96ab053cd8b7fa1205113d6a",
 "assets/FontManifest.json": "7b2a36307916a9721811788013e65289",
 "assets/fonts/MaterialIcons-Regular.otf": "aa33cc437178ff87cf286ed58602f830",
 "assets/NOTICES": "a2218c8fc0ffd943f95c634c42ad4637",
@@ -25,7 +26,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "2f79272a590dd4c503a1a0cab2b8e231
 "canvaskit/skwasm.wasm": "39dd80367a4e71582d234948adc521c0",
 "favicon.png": "5dcef449791fa27946b3d35ad8803796",
 "flutter.js": "83d881c1dbb6d6bcd6b42e274605b69c",
-"flutter_bootstrap.js": "9d9b6bcef551a8e890d859600fdfb2a2",
+"flutter_bootstrap.js": "c483562aa26a6167dc164e01b65bdcc0",
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
@@ -47,6 +48,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "2f79272a590dd4c503a1a0cab2b8e231
 "images/runefire/6.png": "f2da5683f0a95de954761f491d83fa7f",
 "images/runefire/7.png": "04b4e494475ff1a5383f2fbe3b0c9500",
 "images/runefire/8.png": "6b520a663b72b4b060f39cbc228827e9",
+"images/tearawhakaora/1.png": "92da8d68279b114fecdbfe7466256a4c",
+"images/tekemuarapu/1.png": "42b4ce6129755391b443b75bceb98c97",
+"images/tekemuarapu/2.png": "8f355f79586ffbaa32b1d7fa09cff033",
 "images/whispers/1.JPEG": "d58d24f5fbb4f57a434a656584ce772b",
 "images/whispers/2.JPEG": "4bf8c31d8cb19017b938a2f431cf3887",
 "images/whispers/3.JPEG": "5626e30acbb1ec5c9ca66befff811020",
@@ -55,7 +59,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "2f79272a590dd4c503a1a0cab2b8e231
 "images/whispers/6.JPEG": "85f6946370897372ebef9551678085d2",
 "index.html": "ef9c4e9463d071cd846e0644684f6a12",
 "/": "ef9c4e9463d071cd846e0644684f6a12",
-"main.dart.js": "0e4d298c261f63e693a5bf69451b3968",
+"main.dart.js": "c6466746f98dd903f90cb0e9e0d6b236",
 "manifest.json": "34d7a93a24a9edfdcbc76b9763f73a11",
 "version.json": "11e1a177d57c5da2bc6e3a6acc3010f4"};
 // The application shell files that are downloaded before a service worker can

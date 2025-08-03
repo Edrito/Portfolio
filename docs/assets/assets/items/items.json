@@ -58,6 +58,7 @@
         "status": "cancelled",
         "links":["https://edsquid.itch.io/runfire"],
         "subtitle": "A computer and mobile roguelike-game, inspired by games like Hades and Vampire Survivors.",
+        "techStack": "Front-end: Flutter Flame",
         "images": [
             "https://edrito.github.io/Portfolio/images/runefire/1.png",
             "https://edrito.github.io/Portfolio/images/runefire/2.png",
@@ -67,6 +68,34 @@
             "https://edrito.github.io/Portfolio/images/runefire/6.png",
             "https://edrito.github.io/Portfolio/images/runefire/7.png",
             "https://edrito.github.io/Portfolio/images/runefire/8.png"
+        ]
+    },    "tekemuarapu": {
+        "title": "Te Kēmu Arapū",
+        "success": "successful",
+        "scope": "university",
+        "imagesAreScreenshots": true,
+        "status": "completed",
+        "links":["https://te-kemu-arapu.web.app/"],
+        "subtitle": "A web-based adaption of an educational board game that teaches the Māori language through collaborative gameplay, developed as a group university project.",
+        "description":"Te Kēmu Arapū was a collaborative project with Te Tawharau o Te Whakatōhea Iwi, an organisation dedicated to conserviing and promoting Māori history.\nThe game uses digital technology to allow the studying of Te Reo Māori an accessible and fun activity for all of those involved.\n\nThis project was acomplished with the efforts of 5 team members, as a semester long assignment, comprised of the creation of a system proposal, system requirements and system design.",
+        "techStack": "Front-end: React Native (Web), Tailwind CSS\nBack-end: Google Cloud Functions (Python), Firebase Hosting, Firebase Firestore and papa reo TTS",
+        "images": [
+            "https://edrito.github.io/Portfolio/images/tekemuarapu/1.png",
+            "https://edrito.github.io/Portfolio/images/tekemuarapu/2.png"
+
+        ]
+    },  "tearawhakaora": {
+        "title": "Te Ara Whakaora",
+        "iconPath": "assets/icons/tearawhakaora.png",
+        "success": "moderateSuccess",
+        "scope": "university",
+        "status": "completed",
+        "links":["https://environmental-landscape.web.app/"],
+        "subtitle": "A web-based environmental mapping tool to consolodate the changes to Aotearoas environmental landscape over time, completed as a deliverable for a university project.",
+        "techStack": "Front-end: Flutter (Web)\nBack-end: Firebase Hosting, Official Mapping APIs (Sources on website)",
+        "images": [
+            "https://edrito.github.io/Portfolio/images/tearawhakaora/1.png"
+
         ]
     }
 }

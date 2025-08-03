@@ -1,4 +1,4 @@
-import 'package:app/widgets/item.dart';
+import 'package:app/resources/item.dart';
 
 class HomeState {
   final bool isDarkMode;
