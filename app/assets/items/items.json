@@ -98,5 +98,13 @@
             "https://edrito.github.io/Portfolio/images/tearawhakaora/1.png"
 
         ]
+    }    , "agriwastedatabase":{
+        "title": "AgriWaste Database",
+        "success":"moderateSuccess",
+        "scope":"work",
+        "status":"completed",
+        "links":["https://agriwaste-database.web.app/"],
+        "subtitle":"A website designed and built to host an excel database as a part of my 2024-2025 AgResearch internship, providing a means of authenticating and managing individuals access to an agricultural waste database.",
+        "techStack":"Front-end: Flutter (Web)\nBack-end: Azure Static Web Hosting, Azure Functions, Azure Cosmos DB, Microsoft Entra ID/Auth, Google reCAPTCHA"
     }
 }
