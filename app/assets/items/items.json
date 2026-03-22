@@ -4,7 +4,7 @@
         "iconPath": "assets/icons/nzane.png",
         "scope": "personal",
         "success": "moderateSuccess",
-        "status": "completed",
+        "status": "inactive",
         "imagesAreScreenshots": true,
         "subtitle": "A mobile app that consolidates New Zealand's alerts and social events into a single platform, providing a real-time map and notification service.",
         "images": [
@@ -35,7 +35,7 @@
         "iconPath": "assets/icons/whispers.png",
         "scope": "personal",
         "success": "unsuccessful",
-        "status": "completed",
+        "status": "inactive",
         "imagesAreScreenshots": true,
         "subtitle": "A mobile app for location-based messages that allowed for community voting. Based on the Dark Souls game series message system.",
         "techStack": "Front-end: Flutter (Android)\nBack-end: Google Cloud Functions (Python) and Firebase Firestore",
@@ -56,7 +56,7 @@
         "iconPath": "assets/icons/runefire.png",
         "success": "unsuccessful",
         "scope": "personal",
-        "status": "cancelled",
+        "status": "inactive",
         "links":["https://edsquid.itch.io/runfire"],
         "subtitle": "A computer and mobile roguelike-game, inspired by games like Hades and Vampire Survivors.",
         "techStack": "Front-end: Flutter Flame",
@@ -75,7 +75,7 @@
         "success": "successful",
         "scope": "university",
         "imagesAreScreenshots": true,
-        "status": "completed",
+        "status": "active",
         "links":["https://te-kemu-arapu.web.app/"],
         "subtitle": "A web-based adaption of an educational board game that teaches the Māori language through collaborative gameplay, developed as a group university project.",
         "description":"Te Kēmu Arapū was a collaborative project with Te Tawharau o Te Whakatōhea Iwi, an organisation dedicated to conserving and promoting Māori history.\nThe game uses digital technology to allow the studying of Te Reo Māori in an accessible and fun way for all of those involved.\n\nThis project was acomplished with the efforts of 5 team members, as a semester long assignment, comprised of the creation of a system proposal, system requirements and system design.",
@@ -90,7 +90,7 @@
         "iconPath": "assets/icons/tearawhakaora.png",
         "success": "moderateSuccess",
         "scope": "university",
-        "status": "completed",
+        "status": "inactive",
         "links":["https://environmental-landscape.web.app/"],
         "subtitle": "A web-based environmental mapping tool to consolodate the changes to Aotearoas environmental landscape over time, completed as a deliverable for a university project.",
         "techStack": "Front-end: Flutter (Web)\nBack-end: Firebase Hosting, Official Mapping APIs (Sources on website)",
@@ -98,13 +98,18 @@
             "https://edrito.github.io/Portfolio/images/tearawhakaora/1.png"
 
         ]
-    }    , "agriwastedatabase":{
+    }
+    , "agriwastedatabase":{
         "title": "AgriWaste Database",
         "success":"moderateSuccess",
         "scope":"work",
-        "status":"completed",
+        "status":"active",
         "links":["https://agriwaste-database.web.app/"],
         "subtitle":"A website designed and built to host an excel database as a part of my 2024-2025 AgResearch internship, providing a means of authenticating and managing individuals access to an agricultural waste database.",
-        "techStack":"Front-end: Flutter (Web)\nBack-end: Azure Static Web Hosting, Azure Functions, Azure Cosmos DB, Microsoft Entra ID/Auth, Google reCAPTCHA"
+        "techStack":"Front-end: Flutter (Web)\nBack-end: Azure Static Web Hosting, Azure Functions, Azure Cosmos DB, Microsoft Entra ID/Auth, Google reCAPTCHA","images": [
+            "https://edrito.github.io/Portfolio/images/agriwastedatabase/1.png"
+
+        ]
+   
     }
 }

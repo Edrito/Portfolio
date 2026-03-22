@@ -9,7 +9,7 @@ final homeState = StateProvider(
   (ref) => HomeState(
       isDarkMode:
           WidgetsBinding.instance.platformDispatcher.platformBrightness ==
-              Brightness.dark),
+              Brightness.light),
 );
 
 void main() async {
@@ -31,10 +31,11 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     //Detect if dark mode is enabled
-    final isDarkMode = ref.watch(homeState).isDarkMode;
+    // final isDarkMode = ref.watch(homeState).isDarkMode;
     return MaterialApp(
       theme: ThemeData(
-        brightness: isDarkMode ? Brightness.dark : Brightness.light,
+        fontFamily: 'Times New Roman',
+        // brightness: isDarkMode ? Brightness.dark : Brightness.light,
       ),
       title: appTitle,
       debugShowCheckedModeBanner: false,

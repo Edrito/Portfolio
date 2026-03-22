@@ -74,206 +74,192 @@ class Home extends ConsumerWidget {
               ),
             ],
           ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                isDarkMode ? Icons.light_mode : Icons.dark_mode,
-              ),
-              onPressed: () {
-                ref.read(homeState.notifier).state =
-                    ref.read(homeState).copyWith(
-                          isDarkMode: !isDarkMode,
-                        );
-              },
-            ),
-          ],
         ),
         body: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 1200),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const SizedBox(
-                  height: 8,
-                ),
-                Container(
-                  color: theme.colorScheme.onSurface.withAlpha(25),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            //Sort by
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Sort by: ",
-                                style: theme.textTheme.titleMedium,
-                              ),
-                            ),
-                            DropdownMenu(
-                              enableSearch: false,
-                              enableFilter: false,
-                              dropdownMenuEntries: const [
-                                DropdownMenuEntry<String>(
-                                  value: 'successState',
-                                  label: 'Success',
+          alignment: Alignment.topLeft,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const SizedBox(
+                height: 8,
+              ),
+              // Container(
+              //   color: theme.colorScheme.onSurface.withAlpha(25),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     children: [
+              //       // const Padding(
+              //       //   padding: EdgeInsets.all(8.0),
+              //       //   child: Row(
+              //       //     mainAxisAlignment: MainAxisAlignment.end,
+              //       //     children: [
+              //       //       //Sort by
+              //       //       // Padding(
+              //       //       //   padding: const EdgeInsets.all(8.0),
+              //       //       //   child: Text(
+              //       //       //     "Sort by: ",
+              //       //       //     style: theme.textTheme.titleMedium,
+              //       //       //   ),
+              //       //       // ),
+              //       //       // DropdownMenu(
+              //       //       //   enableSearch: false,
+              //       //       //   enableFilter: false,
+              //       //       //   dropdownMenuEntries: const [
+              //       //       //     DropdownMenuEntry<String>(
+              //       //       //       value: 'successState',
+              //       //       //       label: 'Success',
+              //       //       //     ),
+              //       //       //     DropdownMenuEntry<String>(
+              //       //       //       value: 'statusState',
+              //       //       //       label: 'Status',
+              //       //       //     ),
+              //       //       //   ],
+              //       //       //   initialSelection: ref.watch(homeState).sortBy,
+              //       //       //   onSelected: (value) {
+              //       //       //     ref.read(homeState.notifier).state =
+              //       //       //         ref.read(homeState).copyWith(
+              //       //       //               sortBy: value ?? "successState",
+              //       //       //             );
+              //       //       //   },
+              //       //       // ),
+              //       //       //Ascending/Descending
+              //       //       // Padding(
+              //       //       //   padding: const EdgeInsets.all(8.0),
+              //       //       //   child: Text(
+              //       //       //     "Order: ",
+              //       //       //     style: theme.textTheme.titleMedium,
+              //       //       //   ),
+              //       //       // ),
+              //       //       //Just do icons
+              //       //       // IconButton(
+              //       //       //   icon: Icon(
+              //       //       //     ref.watch(homeState).isDescending
+              //       //       //         ? Icons.arrow_downward
+              //       //       //         : Icons.arrow_upward,
+              //       //       //     color: theme.colorScheme.onSurface,
+              //       //       //   ),
+              //       //       //   onPressed: () {
+              //       //       //     ref.read(homeState.notifier).state =
+              //       //       //         ref.read(homeState).copyWith(
+              //       //       //               isDescending:
+              //       //       //                   !ref.read(homeState).isDescending,
+              //       //       //             );
+              //       //       //   },
+              //       //       // ),
+              //       //     ],
+              //       //   ),
+              //       // ),
+              //       // const Spacer(),
+              //       // Padding(
+              //       //   padding: const EdgeInsets.all(8.0),
+              //       //   child: Text(
+              //       //     "Status:",
+              //       //     style: theme.textTheme.titleMedium,
+              //       //   ),
+              //       // ),
+              //       // const SizedBox(
+              //       //   width: 100,
+              //       // ),
+              //       // Padding(
+              //       //   padding: const EdgeInsets.all(8.0),
+              //       //   child: Text(
+              //       //     "Success:",
+              //       //     style: theme.textTheme.titleMedium,
+              //       //   ),
+              //       // ),
+              //       // const SizedBox(
+              //       //   width: 140,
+              //       // )
+              //     ],
+              //   ),
+              // ),
+              Expanded(
+                child: FutureBuilder(
+                    //Load  assets/items/items.json
+                    future: DefaultAssetBundle.of(context)
+                        .loadString('assets/items/items.json'),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      final itemList = snapshot.data != null
+                          ? (jsonDecode(snapshot.data ?? "")
+                                  as Map<String, dynamic>)
+                              .map(
+                                (key, value) => MapEntry(
+                                  key,
+                                  Item.fromJson(value as Map<String, dynamic>),
                                 ),
-                                DropdownMenuEntry<String>(
-                                  value: 'statusState',
-                                  label: 'Status',
-                                ),
-                              ],
-                              initialSelection: ref.watch(homeState).sortBy,
-                              onSelected: (value) {
-                                ref.read(homeState.notifier).state =
-                                    ref.read(homeState).copyWith(
-                                          sortBy: value ?? "successState",
-                                        );
-                              },
-                            ),
-                            //Ascending/Descending
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                "Order: ",
-                                style: theme.textTheme.titleMedium,
-                              ),
-                            ),
-                            //Just do icons
-                            IconButton(
-                              icon: Icon(
-                                ref.watch(homeState).isDescending
-                                    ? Icons.arrow_downward
-                                    : Icons.arrow_upward,
-                                color: theme.colorScheme.onSurface,
-                              ),
-                              onPressed: () {
-                                ref.read(homeState.notifier).state =
-                                    ref.read(homeState).copyWith(
-                                          isDescending:
-                                              !ref.read(homeState).isDescending,
-                                        );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Spacer(),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Status:",
-                          style: theme.textTheme.titleMedium,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 100,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Success:",
-                          style: theme.textTheme.titleMedium,
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 140,
-                      )
-                    ],
-                  ),
-                ),
-                Expanded(
-                  child: FutureBuilder(
-                      //Load  assets/items/items.json
-                      future: DefaultAssetBundle.of(context)
-                          .loadString('assets/items/items.json'),
-                      builder: (BuildContext context,
-                          AsyncSnapshot<String> snapshot) {
-                        final itemList = snapshot.data != null
-                            ? (jsonDecode(snapshot.data ?? "")
-                                    as Map<String, dynamic>)
-                                .map(
-                                  (key, value) => MapEntry(
-                                    key,
-                                    Item.fromJson(
-                                        value as Map<String, dynamic>),
-                                  ),
-                                )
-                                .values
-                                .toList()
-                            : <Item>[];
+                              )
+                              .values
+                              .toList()
+                          : <Item>[];
 
-                        return SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 16),
-                            child: ListView(
-                              shrinkWrap: true,
-                              children: [
-                                for (ItemScope scope in ItemScope.values)
-                                  Builder(builder: (context) {
-                                    final itemWidgets = itemList
-                                        .where((item) => item.scope == scope)
-                                        .toList();
-
-                                    //Sort items based on HomeState
-                                    itemWidgets.sort((a, b) {
-                                      final homeStateClass =
-                                          ref.watch(homeState);
-                                      if (homeStateClass.sortBy ==
-                                          "successState") {
-                                        return homeStateClass.isDescending
-                                            ? a.success.index
-                                                .compareTo(b.success.index)
-                                            : b.success.index
-                                                .compareTo(a.success.index);
-                                      } else if (homeStateClass.sortBy ==
-                                          "statusState") {
-                                        return homeStateClass.isDescending
-                                            ? a.status.index
-                                                .compareTo(b.status.index)
-                                            : b.status.index
-                                                .compareTo(a.status.index);
-                                      }
-                                      return 0;
-                                    });
-                                    return ExpansionTile(
-                                      title: Text(scope.name.toUpperCase()),
-                                      initiallyExpanded: true,
-                                      children: [
-                                        VisibilityDetector(
-                                            key: Key(scope.name),
-                                            onVisibilityChanged:
-                                                (visibilityInfo) {
-                                              if (visibilityInfo
-                                                      .visibleFraction >
-                                                  0.1) {
-                                                print(
-                                                    '${scope.name} is visible');
-                                              }
-                                            },
-                                            child: ListView(
-                                              shrinkWrap: true,
-                                              children: itemWidgets
-                                                  .animate()
-                                                  .fadeIn(),
-                                            )),
-                                      ],
-                                    );
-                                  }),
-                              ],
-                            ),
-                          ),
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
                         );
-                      }),
-                ),
-              ],
-            ),
+                      }
+
+                      return SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16),
+                          child: ListView(
+                            shrinkWrap: true,
+                            children: [
+                              for (ItemScope scope in ItemScope.values)
+                                Builder(builder: (context) {
+                                  List<Widget> itemWidgets = itemList
+                                      .where((item) => item.scope == scope)
+                                      .toList();
+
+                                  itemWidgets = itemWidgets
+                                      .map((e) => Container(
+                                            padding: const EdgeInsets.all(16),
+                                            child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: theme
+                                                      .colorScheme.surface
+                                                      .withAlpha(200),
+                                                  border: Border.all(
+                                                    color: theme
+                                                        .colorScheme.onSurface
+                                                        .withAlpha(100),
+                                                    width: 1.35,
+                                                  ),
+                                                ),
+                                                child: e),
+                                          ))
+                                      .toList();
+
+                                  //Sort items based on HomeState
+
+                                  return Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Container(
+                                        color: theme.colorScheme.secondary
+                                            .withAlpha(25),
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text(
+                                          scope.name.titleCase,
+                                          style: theme.textTheme.headlineMedium,
+                                        ),
+                                      ),
+                                      ListView(
+                                          shrinkWrap: true,
+                                          children: itemWidgets),
+                                      const SizedBox(height: 24)
+                                    ],
+                                  );
+                                }),
+                            ],
+                          ).animate().fadeIn().moveX(),
+                        ),
+                      );
+                    }),
+              ),
+            ],
           ),
         ));
   }

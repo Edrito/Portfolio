@@ -7,50 +7,44 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum ItemScope {
-  personal,
-  university,
   work,
+  personal,
+  university;
 }
 
 enum ItemStatus {
-  completed,
-  inProgress,
-  planned,
-  cancelled;
+  active,
+  inactive;
 
   Color get color {
     switch (this) {
-      case ItemStatus.completed:
-        return Colors.green.shade100;
-      case ItemStatus.inProgress:
-        return Colors.blue.shade100;
-      case ItemStatus.planned:
-        return Colors.yellow.shade100;
-      case ItemStatus.cancelled:
-        return Colors.grey;
+      case ItemStatus.active:
+        return Colors.blue.shade200;
+      case ItemStatus.inactive:
+        return Colors.red.shade200;
     }
   }
 }
 
-enum ItemSuccess {
-  successful,
-  moderateSuccess,
-  minorSuccess,
-  unsuccessful;
+// enum ItemSuccess {
+//   successful,
+//   moderateSuccess,
+//   minorSuccess,
+//   unsuccessful;
 
-  Color get color {
-    switch (this) {
-      case ItemSuccess.successful:
-        return Colors.green.shade300;
-      case ItemSuccess.unsuccessful:
-        return Colors.red.shade300;
-      case ItemSuccess.moderateSuccess:
-        return Colors.orange.shade300;
-      case ItemSuccess.minorSuccess:
-        return Colors.yellow.shade300;
-    }
-  }
-}
+//   Color get color {
+//     switch (this) {
+//       case ItemSuccess.successful:
+//         return Colors.green.shade300;
+//       case ItemSuccess.unsuccessful:
+//         return Colors.red.shade300;
+//       case ItemSuccess.moderateSuccess:
+//         return Colors.orange.shade300;
+//       case ItemSuccess.minorSuccess:
+//         return Colors.yellow.shade300;
+//     }
+//   }
+// }
 
 final itemScrollProvider =
     Provider.family<CarouselSliderController, String>((ref, title) {
@@ -65,8 +59,8 @@ class Item extends ConsumerWidget {
     this.year = const (0, null),
     this.month,
     this.scope = ItemScope.personal,
-    this.status = ItemStatus.completed,
-    this.success = ItemSuccess.successful,
+    this.status = ItemStatus.inactive,
+    // this.success = ItemSuccess.successful,
     this.positives = const [],
     this.negatives = const [],
     this.lessons = const [],
@@ -100,12 +94,12 @@ class Item extends ConsumerWidget {
       ),
       status: ItemStatus.values.firstWhere(
         (e) => e.name == json['status'],
-        orElse: () => ItemStatus.completed,
+        orElse: () => ItemStatus.inactive,
       ),
-      success: ItemSuccess.values.firstWhere(
-        (e) => e.name == json['success'],
-        orElse: () => ItemSuccess.successful,
-      ),
+      // success: ItemSuccess.values.firstWhere(
+      //   (e) => e.name == json['success'],
+      //   orElse: () => ItemSuccess.successful,
+      // ),
       positives: (json['positives'] as List<dynamic>?)?.cast<String>() ?? [],
       negatives: (json['negatives'] as List<dynamic>?)?.cast<String>() ?? [],
       iconPath: json['iconPath'] as String?,
@@ -124,7 +118,7 @@ class Item extends ConsumerWidget {
   final ItemScope scope;
   final ItemStatus status;
   final String subtitle;
-  final ItemSuccess success;
+  // final ItemSuccess success;
   final List<String>? tags;
   final String title;
   final bool imagesAreScreenshots;
@@ -140,59 +134,81 @@ class Item extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = Theme.of(context);
-    return ExpansionTile(
-      key: ValueKey(title),
-      leading: iconPath != null
-          ? Image.asset(
-              iconPath!,
-              width: 64,
-              height: 64,
-            )
-          : null,
-      subtitle: Text(
-        subtitle,
-        style: themeData.textTheme.titleSmall,
-        maxLines: 3,
-      ),
-      title: Row(
-        children: [
-          Expanded(
-              child: Text(
-            title,
-            style: themeData.textTheme.titleMedium,
-          )),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                width: 150,
-                color: status.color,
-                child: Center(
-                  child: Text(
-                    status.name.titleCase,
-                    style: themeData.textTheme.titleMedium
-                        ?.copyWith(color: Colors.black87),
-                  ),
-                )),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                width: 150,
-                color: success.color,
-                child: Center(
-                  child: Text(
-                    success.name.titleCase,
-                    style: themeData.textTheme.titleMedium
-                        ?.copyWith(color: Colors.black87),
-                  ),
-                )),
-          ),
-        ],
-      ),
+    final screenWidth = MediaQuery.sizeOf(context).width;
+    return Column(
       children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              if (iconPath != null)
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    iconPath!,
+                    width: 64,
+                    height: 64,
+                  ),
+                )
+              else
+                const SizedBox(
+                  width: 80,
+                  height: 80,
+                ), // Reserve space for alignment
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                            child: Text(
+                          title,
+                          style: themeData.textTheme.titleMedium,
+                        )),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                              width: 150,
+                              color: status.color,
+                              child: Center(
+                                child: Text(
+                                  status.name.titleCase,
+                                  style: themeData.textTheme.titleMedium
+                                      ?.copyWith(color: Colors.black87),
+                                ),
+                              )),
+                        ),
+                        // Padding(
+                        //   padding: const EdgeInsets.all(8.0),
+                        //   child: Container(
+                        //       width: 150,
+                        //       color: success.color,
+                        //       child: Center(
+                        //         child: Text(
+                        //           success.name.titleCase,
+                        //           style: themeData.textTheme.titleMedium
+                        //               ?.copyWith(color: Colors.black87),
+                        //         ),
+                        //       )),
+                        // ),
+                      ],
+                    ),
+                    Text(
+                      subtitle,
+                      style: themeData.textTheme.titleSmall,
+                      maxLines: 3,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
         if (techStack.isNotEmpty)
           Container(
-            color: themeData.colorScheme.secondary,
+            color: themeData.colorScheme.secondary.withAlpha(150),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -202,7 +218,7 @@ class Item extends ConsumerWidget {
                     "Tech Stack",
                     style: themeData.textTheme.titleMedium
                         ?.copyWith(color: themeData.colorScheme.onPrimary),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                   ),
                 ),
                 Padding(
@@ -229,7 +245,7 @@ class Item extends ConsumerWidget {
                     "Links",
                     style: themeData.textTheme.titleMedium
                         ?.copyWith(color: themeData.colorScheme.onSurface),
-                    textAlign: TextAlign.center,
+                    textAlign: TextAlign.start,
                   ),
                 ),
                 Padding(
@@ -304,9 +320,22 @@ class Item extends ConsumerWidget {
                                 ),
                               );
                             },
-                            child: CachedNetworkImage(
-                              imageUrl: image,
-                              fit: BoxFit.cover,
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints(
+                                maxWidth: screenWidth * 0.8,
+                              ),
+                              child: CachedNetworkImage(
+                                imageUrl: image,
+                                progressIndicatorBuilder:
+                                    (context, url, progress) {
+                                  return Center(
+                                    child: CircularProgressIndicator(
+                                      value: progress.progress,
+                                    ),
+                                  );
+                                },
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                         ),
